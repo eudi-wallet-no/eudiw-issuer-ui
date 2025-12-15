@@ -3,6 +3,14 @@
 <head>
     <th:block th:replace="~{fragments/general :: base_head_fragment}"></th:block>
     <title>EUDIW sandkassa for digital lommebok: Bevisporten</title>
+
+    <style>
+        .is-disabled {
+            pointer-events: none;
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
 </head>
 
 <body>
@@ -44,6 +52,22 @@
             <h2 class="ds-heading">Inntektsbevis</h2>
             <p class="ds-paragraph" data-variant="neutral">
                 no.skatteetaten.inntekt.1 (SD-JWT VC)
+            </p>
+        </a>
+        <a th:href="@{#}" class="ds-card" th:disabled="true"
+            th:classappend="${#strings.isEmpty(credential_configuration_id)} ? 'is-disabled' : ''"
+           data-variant="neutral" style="max-width: 500px">
+            <h2 class="ds-heading">Advokatbevilling</h2>
+            <p class="ds-paragraph" data-variant="neutral">
+                Advokatbevilling etc etc
+            </p>
+        </a>
+        <a th:href="@{#}" class="ds-card"
+           th:classappend="${#strings.isEmpty(credential_configuration_id)} ? 'is-disabled' : ''"
+           data-variant="neutral" style="max-width: 500px">
+            <h2 class="ds-heading">Digital Kontaktinformasjon</h2>
+            <p class="ds-paragraph" data-variant="neutral">
+                Digital Kontaktinformasjon etc etc
             </p>
         </a>
 
