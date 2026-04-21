@@ -1,10 +1,16 @@
 # eudiw-issuer-ui / bevisporten
+
+> [!WARNING]
+> This application is part of the National Sandbox for Digital Wallet.
+> See https://docs.digdir.no/docs/lommebok/lommebok_om.html for more information.
+
 EUDI wallet: Issuer-ui for issuance of verifiable credentials for Norway
 
 ## Requirements
 - Java 25
 - Maven
 - Docker
+- Access to Digitaliseringsdirektoratet infrastructure is required to run the application.
 
 ## Configuration
 
