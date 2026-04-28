@@ -43,7 +43,6 @@ class StartIssuanceControllerTest {
         String configuration_id = "test-id";
         String issuerServer = "issuer-server";
         CredentialOffer offer = new CredentialOffer(issuerServer, Collections.singletonList(configuration_id), new Grants(new AuthorizedCodeGrant(null, null)));
-//        when(issuerServerService.startIssuance(any(CredentialConfiguration.class), any(URI.class))).thenReturn(offer);
         doReturn(offer).when(issuerServerService).startIssuance(any(CredentialConfiguration.class), any(URI.class));
         mockMvc.perform(get("/start-issuance?credential_configuration_id={configuration_id}", configuration_id))
                 .andExpect(status().isOk())
