@@ -16,6 +16,8 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
+
 @Service
 public class IssuerServerService {
 
@@ -31,14 +33,17 @@ public class IssuerServerService {
         this.restClient = restClient;
     }
 
-    public CredentialOffer startIssuance(CredentialConfiguration credentialConfiguration) {
-        log.info("Starting issuance for credential configuration {}", credentialConfiguration.id());
-        String issuanceCreatePath = issuerServerProperties.getIssuanceEndpoint();
-        String uri = UriComponentsBuilder
+    public URI createCredentialOfferRequestUri(CredentialConfiguration credentialConfiguration) {
+        return UriComponentsBuilder
                 .fromUriString(credentialConfiguration.issuer())
-                .path(issuanceCreatePath)
+                .path(issuerServerProperties.getBaseUrl())
                 .queryParam("credential_configuration_id", credentialConfiguration.id())
-                .toUriString();
+                .build()
+                .toUri();
+    }
+
+    public CredentialOffer startIssuance(CredentialConfiguration credentialConfiguration, URI uri) {
+        log.info("Starting issuance for credential configuration {}", credentialConfiguration.id());
         CredentialOffer result;
         try {
             result = restClient.get().uri(

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -65,9 +66,10 @@ public class StartIssuanceController {
 
         logger.info("Starting issuance for credential_configuration_id=" + credentialConfigurationId);
 
-        model.addAttribute("request", createRequestTracing(credentialConfiguration));
+        URI credentialOfferRequestUri = issuerServerService.createCredentialOfferRequestUri(credentialConfiguration);
+        model.addAttribute("request", createRequestTracing(credentialOfferRequestUri));
 
-        CredentialOffer response = issuerServerService.startIssuance(credentialConfiguration);
+        CredentialOffer response = issuerServerService.startIssuance(credentialConfiguration, credentialOfferRequestUri);
 
         String uri = convertToCredentialOfferUri(response, "openid-credential-offer");
         String haipUri = convertToCredentialOfferUri(response, "haip-vci");
@@ -87,9 +89,8 @@ public class StartIssuanceController {
         return VIEW_ISSUANCE_RESPONSE;
     }
 
-    private IssuanceRequest createRequestTracing(CredentialConfiguration credentialConfiguration) {
-        String requestUri = String.format("%s?credential_configuration_id=%s", properties.getIssuanceUrl(), credentialConfiguration.id());
-        return new IssuanceRequest(requestUri);
+    private IssuanceRequest createRequestTracing(URI uri) {
+        return new IssuanceRequest(uri.toString());
     }
 
     private String convertToCredentialOfferUri(CredentialOffer credentialOffer, String scheme) {
