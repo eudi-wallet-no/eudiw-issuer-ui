@@ -36,7 +36,7 @@ public class IssuerServerService {
     public URI createCredentialOfferRequestUri(CredentialConfiguration credentialConfiguration) {
         return UriComponentsBuilder
                 .fromUriString(credentialConfiguration.issuer())
-                .path(issuerServerProperties.getBaseUrl())
+                .path(issuerServerProperties.getIssuanceEndpoint())
                 .queryParam("credential_configuration_id", credentialConfiguration.id())
                 .build()
                 .toUri();
